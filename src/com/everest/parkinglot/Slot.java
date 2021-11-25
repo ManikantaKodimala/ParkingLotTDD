@@ -24,4 +24,8 @@ public class Slot {
         this.vehicle=null;
         return vehicle1;
     }
+
+    public int getID() {
+        return this.slotId;
+    }
 }

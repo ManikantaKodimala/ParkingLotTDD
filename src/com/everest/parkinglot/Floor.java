@@ -2,9 +2,10 @@ package com.everest.parkinglot;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Floor {
-    private Map<Integer, Slot> floorMap;
+    public Map<Integer, Slot> floorMap;
     private int floorNumber;
     private int noOfSlots;
 
@@ -16,7 +17,7 @@ public class Floor {
     }
 
     private void createFloor() {
-        for (int i = 1; i < noOfSlots; i++) {
+        for (int i = 1; i <=noOfSlots; i++) {
             this.floorMap.put(i, new Slot(i));
         }
     }
@@ -34,7 +35,19 @@ public class Floor {
         return removedSlot;
     }
 
+    public int getSlotsCount(){
+        return this.floorMap.size();
+    }
+
+    public Set<Integer> getAllSlotsId(){
+        return this.floorMap.keySet();
+    }
+
     public void setFloor(int floorNumber, Slot removedSlot) {
         this.floorMap.put(floorNumber,removedSlot);
+    }
+
+    public Set<Integer> getSlotkeys() {
+        return this.floorMap.keySet();
     }
 }

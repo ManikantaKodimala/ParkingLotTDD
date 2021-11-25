@@ -10,40 +10,58 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ParkingLot {
-    private  int noOfSlots;
+    private static int noOfSlots;
     private String parkingLotId;
-    private  int noOfFloors;
-    private Map<String, Map<Integer,Floor>> floorMap;
+    private static int noOfFloors;
+    private Map<String, Map<Integer, Floor>> floorMap;
 
-    public ParkingLot(String parkingLotId,int noOfFloors,int noOfSlots){
+    public ParkingLot(String parkingLotId, int noOfFloors, int noOfSlots) {
         this.parkingLotId = parkingLotId;
-        this.noOfFloors= noOfFloors;
-        this.noOfSlots=noOfSlots;
-        floorMap= new HashMap<String,Map<Integer,Floor>>();
+        this.noOfFloors = noOfFloors;
+        this.noOfSlots = noOfSlots;
+        floorMap = new HashMap<String, Map<Integer, Floor>>();
         this.createParkingLot();
     }
 
     private void createParkingLot() {
-        Map<Integer,Floor> floor= new HashMap<>();
-        for(int i=1;i<this.noOfFloors;i++){
-            floor.put(i,new Floor(i,this.noOfSlots));
+        Map<Integer, Floor> floor = new HashMap<>();
+        for (int i = 1; i <= this.noOfFloors; i++) {
+            floor.put(i, new Floor(i, this.noOfSlots));
         }
         floorMap.put("Free_Floors",floor);
         floorMap.put("Occupied_Floors",new HashMap<>());
+        dis(floorMap);
+    }
+
+    private void dis(Map<String, Map<Integer, Floor>> floorMap) {
+        for (String  type : floorMap.keySet()) {
+            System.out.println(type.toString());
+            Map<Integer, Floor> hashh=floorMap.get(type);
+            for (int floorNumber:
+                 hashh.keySet()) {
+                System.out.println("floor number"+floorNumber);
+                Floor floor = hashh.get(floorNumber);
+                System.out.println(" number of slots"+floor.getNoOfSlots());
+                for (int i = 1; i <=floor.getNoOfSlots(); i++) {
+                    System.out.println(floor.getSlot(i).getID());
+                }
+            }
+        }
     }
 
     public String parkVehicle(Vehicle vehicle) {
-        ParkStrategy strategy= this.getStrategy(vehicle.getVehicleType());
-        return strategy.parkVehicle(vehicle,this);
+        ParkStrategy strategy = this.getStrategy(vehicle.getVehicleType());
+        String v = strategy.parkVehicle(vehicle, this);
+        return v;
     }
 
     public Vehicle unParkVehicle(String ticketId) {
-        ParkStrategy strategy= this.getStrategy(ticketId);
-        return strategy.unParkVehicle(ticketId,this);
+        ParkStrategy strategy = this.getStrategy(ticketId);
+        return strategy.unParkVehicle(ticketId, this);
     }
 
     private ParkStrategy getStrategy(String vehicleType) {
-        switch (vehicleType){
+        switch (vehicleType) {
             case "CAR":
                 return new ParkCarStrategy();
             case "TRUCK":
@@ -55,30 +73,19 @@ public class ParkingLot {
         }
     }
 
-    public Map<Integer,Floor> getOccupiedFloors(String occupied_floors) {
-        return  this.floorMap.get("Occupied_Floors");
+    public Map<Integer, Floor> getOccupiedFloors() {
+        return this.floorMap.get("Occupied_Floors");
     }
 
-    public void setUnParkStatus(int floorNumber, int slotNumber) {
-        Slot removedSlot = this.floorMap.get("Occupied_Floors").get(floorNumber).removeFreeSlot(slotNumber);
-        Map<Integer,Floor> freeFloors = this.floorMap.get("Free_Floors");
-        Floor floor = freeFloors.get(floorNumber);
-        floor.setFloor(floorNumber,removedSlot);
-    }
-
-    public Map<Integer,Floor> getFreeFloors() {
+    public Map<Integer, Floor> getFreeFloors() {
         return this.floorMap.get("Free_Floors");
     }
 
-    public void setParkStatus(int floorNumber, int slotNumber) {
-        Slot removedSlot = this.floorMap.get("Free_Floors").get(floorNumber).removeFreeSlot(slotNumber);
-        Map<Integer,Floor> occupiedFloors = this.floorMap.get("Occupied_Floors");
-        if(!occupiedFloors.containsKey(floorNumber)){
-            Floor floor = new Floor(floorNumber,this.noOfSlots);
-            occupiedFloors.put(floorNumber,floor);
-        }
-        Floor floor = occupiedFloors.get(floorNumber);
-        floor.setFloor(floorNumber,removedSlot);
+    public int getNoOfFloors() {
+        return this.noOfFloors;
     }
 
+    public int getNoOfSlots() {
+        return this.noOfSlots;
+    }
 }
