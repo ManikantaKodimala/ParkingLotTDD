@@ -19,7 +19,13 @@ public class Slot {
         return this.vehicle!=null;
     }
 
-    public void unParkVehicle(){
+    public Vehicle unParkVehicle(){
+        Vehicle vehicle1=this.vehicle;
         this.vehicle=null;
+        return vehicle1;
+    }
+
+    public int getID() {
+        return this.slotId;
     }
 }

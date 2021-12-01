@@ -8,14 +8,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class SlotTest extends TestCase {
-    private static Slot slot=new Slot(1);
-    private static Vehicle vehicle=new Car("CAR","Ap12T134","blue");
-//    @BeforeClass
-//    public void beforeAll(){
-//        int slotId=1;
-//        slot= new Slot(1);
-//        vehicle= new Car("CAR","Ap12T134","blue");
-//    }
+    private  Slot slot=new Slot(1);
+    private  Vehicle vehicle=new Car("CAR","Ap12T134","blue");
+    @Before
+    public void beforeAll(){
+        int slotId=1;
+        slot= new Slot(1);
+        vehicle= new Car("CAR","Ap12T134","blue");
+    }
 
     @Test
     public void testParkVehicle() {
